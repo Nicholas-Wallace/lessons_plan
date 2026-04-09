@@ -1,8 +1,9 @@
 package com.nicholaswallace.lessons_plan.model;
 
-import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -27,12 +28,13 @@ public class AppUser {
 
     @Getter
     @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Getter
     @Setter
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Getter
@@ -50,5 +52,6 @@ public class AppUser {
     @Getter
     @Setter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<LessonDoc> lessonDocs;
 }
