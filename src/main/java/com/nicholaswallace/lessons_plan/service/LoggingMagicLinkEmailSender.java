@@ -15,6 +15,8 @@ public class LoggingMagicLinkEmailSender implements MagicLinkEmailSender {
 
     @Override
     public void sendSignInLink(AppUser user, String magicLink) {
-        LOGGER.info("Magic link for {}: {}", user.getEmail(), magicLink);
+        // Redact token query parameter if present before logging
+        String safeLink = magicLink == null ? null : magicLink.replaceAll("([?&]token=)[^&]+", "$1[REDACTED]");
+        LOGGER.info("Magic link for {}: {}", user.getEmail(), safeLink);
     }
 }
