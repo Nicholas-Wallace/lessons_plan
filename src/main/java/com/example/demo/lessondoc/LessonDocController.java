@@ -1,10 +1,10 @@
-package com.nicholaswallace.demo.lessondoc;
+package com.example.demo.lessondoc;
 
-import com.nicholaswallace.demo.lessondoc.LessonDocCompileDTO;
-import com.nicholaswallace.demo.lessondoc.LessonDocDTO;
-import com.nicholaswallace.demo.lessondoc.LessonDoc;
-import com.nicholaswallace.demo.lessondoc.LessonDocService;
-import com.nicholaswallace.demo.lessondoc.TexCompileService;
+import com.example.demo.lessondoc.LessonDocCompileDTO;
+import com.example.demo.lessondoc.LessonDocDTO;
+import com.example.demo.lessondoc.LessonDoc;
+import com.example.demo.lessondoc.LessonDocService;
+import com.example.demo.tex.TexCompileService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

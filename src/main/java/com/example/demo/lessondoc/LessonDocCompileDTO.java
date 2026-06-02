@@ -1,4 +1,4 @@
-package com.nicholaswallace.demo.lessondoc;
+package com.example.demo.lessondoc;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.nicholaswallace.demo.tex;
+package com.example.demo.tex;
 
-import com.nicholaswallace.demo.lessondoc.LessonDocCompileDTO;
-import com.nicholaswallace.demo.lessondoc.LessonDocCompileDTO.*;
-import com.nicholaswallace.demo.util.TexEscaper;
+import com.example.demo.lessondoc.LessonDocCompileDTO;
+import com.example.demo.lessondoc.LessonDocCompileDTO.*;
+import com.example.demo.util.TexEscaper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;

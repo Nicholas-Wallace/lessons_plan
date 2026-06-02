@@ -1,4 +1,4 @@
-package com.nicholaswallace.demo.tex;
+package com.example.demo.tex;
 
 public final class TexEscaper {
 

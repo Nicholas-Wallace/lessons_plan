@@ -1,10 +1,10 @@
-package com.nicholaswallace.demo.lessondoc;
+package com.example.demo.lessondoc;
 
-import com.nicholaswallace.model.lessondoc.LessonDocDTO;
-import com.nicholaswallace.demo.lessondoc.AppUser;
-import com.nicholaswallace.demo.lessondoc.LessonDoc;
-import com.nicholaswallace.demo.lessondoc.LessonDocRepository;
-import com.nicholaswallace.demo.lessondoc.AppUserRepository;
+import com.example.demo.lessondoc.LessonDocDTO;
+import com.example.demo.appuser.AppUser;
+import com.example.demo.lessondoc.LessonDoc;
+import com.example.demo.lessondoc.LessonDocRepository;
+import com.example.demo.appuser.AppUserRepository;
 
 import org.springframework.stereotype.Service;
 
