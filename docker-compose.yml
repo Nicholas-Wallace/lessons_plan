@@ -1,27 +1,36 @@
+version: '3.8'
 services:
-  db:
+  postgres:
     image: postgres:16-alpine
-    container_name: postgres_db
-    restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mydb}
-      POSTGRES_USER: ${POSTGRES_USER:-admin}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: registration
+      POSTGRES_PASSWORD: password
     ports:
-      - "5332:5432"
+      - "5432:5432"
     volumes:
-      - db:/postgres
-    networks:
-      - db
+      - postgres_data:/var/lib/postgresql/data
 
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-mydb}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-networks:
-  db:
-    driver: bridge 
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/registration
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_MAIL_HOST: mailhog
+      SPRING_MAIL_PORT: 1025
+      SPRING_MAIL_USERNAME: hello
+      SPRING_MAIL_PASSWORD: hello
+    depends_on:
+      - postgres
+      - mailhog
 
 volumes:
-  db:
+  postgres_data:
