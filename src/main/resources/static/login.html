@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Plano de Aula</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card auth-card">
+            <h2>Entrar</h2>
+            
+            <div id="message" class="message" style="display: none;"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width">Entrar</button>
+            </form>
+
+            <div class="divider">ou</div>
+
+            <form id="magicLinkForm">
+                <div class="form-group">
+                    <label for="magicEmail">Usar Link Mágico:</label>
+                    <input type="email" id="magicEmail" name="email" placeholder="Digite seu email" required>
+                </div>
+                <button type="submit" class="btn btn-secondary full-width">Enviar Link Mágico</button>
+            </form>
+
+            <p class="auth-link">
+                Não tem conta? <a href="register.html">Registre-se aqui</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                    setTimeout(() => window.location.href = '/compile.html', 1500);
+                } else {
+                    const text = await response.text();
+                    let errorMessage = 'Erro ao fazer login';
+                    try {
+                        const errorBody = JSON.parse(text);
+                        errorMessage = errorBody.message || errorMessage;
+                    } catch (_) {
+                        if (text) {
+                            errorMessage = text;
+                        }
+                    }
+                    showMessage(errorMessage, 'error');
+                }
+            } catch (error) {
+                showMessage('Erro de conexão: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('magicLinkForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('magicEmail').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/auth/magic-link', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (response.ok) {
+                    showMessage('Link mágico enviado para seu email! Verifique sua caixa de entrada.', 'success');
+                } else {
+                    showMessage('Erro ao enviar link mágico', 'error');
+                }
+            } catch (error) {
+                showMessage('Erro de conexão: ' + error.message, 'error');
+            }
+        });
+
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+        }
+
+        // Check for magic link verification token in URL
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            if (token) {
+                verifyMagicLink(token);
+            }
+        });
+
+        async function verifyMagicLink(token) {
+            try {
+                const response = await fetch(`/auth/magic-link/verify?token=${token}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    showMessage('Link verificado! Você será redirecionado...', 'success');
+                    setTimeout(() => window.location.href = '/dashboard.html', 1500);
+                } else {
+                    showMessage('Link inválido ou expirado', 'error');
+                }
+            } catch (error) {
+                showMessage('Erro ao verificar link: ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

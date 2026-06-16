@@ -4,24 +4,30 @@ import com.example.demo.lessondoc.LessonDocCompileDTO;
 import com.example.demo.lessondoc.LessonDocDTO;
 import com.example.demo.lessondoc.LessonDoc;
 import com.example.demo.lessondoc.LessonDocService;
-import com.example.demo.tex.TexCompileService;
+import com.example.demo.lessondoc.DocxCompileService;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/lesson-docs")
 public class LessonDocController {
 
     private final LessonDocService lessonDocService;
-    private final TexCompileService texCompileService;
+    private final DocxCompileService docxCompileService;
 
-    public LessonDocController(LessonDocService lessonDocService, TexCompileService texCompileService) {
+    public LessonDocController(LessonDocService lessonDocService, DocxCompileService docxCompileService) {
         this.lessonDocService = lessonDocService;
-        this.texCompileService = texCompileService;
+        this.docxCompileService = docxCompileService;
     }
 
     @PostMapping
@@ -33,20 +39,43 @@ public class LessonDocController {
     /**
      * POST /api/lesson-docs/compile
      *
-     * Accepts the full LessonDocCompileDTO payload, fills the .tex template,
-     * compiles it with pdflatex and returns the path to the generated PDF.
+     * Accepts the full LessonDocCompileDTO payload, generates a .docx file,
+     * stores it in the configured compile directory and returns the path.
      *
-     * Success  201 → { "pdfPath": "/compiled/<uuid>.pdf" }
+     * Success  201 → { "docxPath": "/compiled/<uuid>.docx" }
      * Failure  500 → { "error": "<message>" }
      */
     @PostMapping("/compile")
-    public ResponseEntity<Map<String, String>> compile(@RequestBody LessonDocCompileDTO dto) {
+    public ResponseEntity<Resource> compile(@RequestBody LessonDocCompileDTO dto) {
         try {
-            String pdfPath = texCompileService.compile(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("pdfPath", pdfPath));
+            String docxPath = docxCompileService.compile(dto);
+            // docxPath is returned like "/compiled/<id>.docx" while storageDir is "./static/compiled"
+            // avoid resolving to "./static/compiled/compiled/<id>.docx" by stripping the leading "/compiled/" prefix
+            String relative = docxPath;
+            if (relative.startsWith("/compiled/")) {
+                relative = relative.substring("/compiled/".length());
+            } else {
+                relative = relative.replaceFirst("^/", "");
+            }
+            Path filePath = Paths.get(docxCompileService.getStorageDir()).resolve(relative);
+            File file = filePath.toFile();
+
+            if (!file.exists() || !file.canRead()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+
+            Resource resource = new FileSystemResource(file);
+            String filename = file.getName();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(file.length())
+                    .body(resource);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

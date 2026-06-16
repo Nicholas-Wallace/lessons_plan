@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compilar Plano de Aula</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card auth-card">
+            <h2>Compilar Plano de Aula</h2>
+            <div id="message" class="message" style="display:none;"></div>
+
+            <form id="compileForm">
+                <fieldset>
+                    <legend>Informações</legend>
+                    <div class="form-group">
+                        <label for="nome_candidato">Nome do Candidato</label>
+                        <input type="text" id="nome_candidato" name="nome_candidato" value="Fulano de Tal da Silva" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_inscricao">Número de Inscrição</label>
+                        <input type="text" id="numero_inscricao" name="numero_inscricao" value="9999-9" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="area_concurso">Área do Concurso</label>
+                        <input type="text" id="area_concurso" name="area_concurso" value="Física" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="publico_alvo">Público Alvo</label>
+                        <input type="text" id="publico_alvo" name="publico_alvo" value="Licenciatura em Física (5º Período)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="disciplina">Disciplina</label>
+                        <input type="text" id="disciplina" name="disciplina" value="Óptica Avançada" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tempo_aula">Tempo de Aula</label>
+                        <input type="text" id="tempo_aula" name="tempo_aula" value="45 minutos" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="data_aula">Data da Aula</label>
+                        <input type="text" id="data_aula" name="data_aula" value="??/??/????" required>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Título</legend>
+                    <div class="form-group">
+                        <label for="titulo">Título do Plano</label>
+                        <textarea id="titulo" name="titulo" rows="2" required>Princípios e aplicações da espectroscopia fototérmica para estudos em função da temperatura</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Objetivos</legend>
+                    <div class="form-group">
+                        <label for="objetivos">Objetivos (uma linha por objetivo)</label>
+                        <textarea id="objetivos" name="objetivos" rows="6" required>Explicar o princípio físico da espectroscopia fototérmica, relacionando absorção de radiação, dissipação de calor e modificação de propriedades do meio.
+Reconhecer diferentes técnicas fototérmicas (ex.: lente térmica, deflexão fototérmica, fotoacústica) e suas particularidades.
+Analisar como a variação da temperatura afeta os sinais fototérmicos e o que isso revela sobre as propriedades da amostra.
+Identificar aplicações em diferentes áreas, como caracterização de materiais, estudos de transições de fase e análise de processos dinâmicos.</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Conteúdo</legend>
+                    <div class="form-group">
+                        <label for="conteudo">Conteúdo (cada item em uma linha, subtopicos separados por "|" após o título)</label>
+                        <textarea id="conteudo" name="conteudo" rows="12" required>Introdução
+Fundamentos físicos da espectroscopia fototérmica|Absorção da radiação eletromagnética: geração de calor local.|Formação de gradientes térmicos: alteração do índice de refração e/ou expansão térmica.|Detecção indireta do calor pela interação com outro feixe (luz de prova) ou pelo som (efeito fotoacústico).
+Técnicas fototérmicas principais|Lente térmica (Thermal Lens Spectroscopy): mudança do índice de refração atua como lente divergente ou convergente.|Deflexão fototérmica (Photothermal Deflection Spectroscopy): gradiente térmico desvia um feixe de prova no meio.|Espectroscopia fotoacústica (Photoacoustic Spectroscopy): expansão térmica gera ondas acústicas detectáveis por microfone.
+Dependência com a temperatura|Coeficientes termo-ópticos (dn/dT).|Difusividade e condutividade térmica.|Mudanças estruturais em sólidos (ex.: transições vítreas, ordem-desordem).|Processos dinâmicos em líquidos (ex.: relaxação térmica).
+Aplicações práticas|Determinação de propriedades termo-ópticas de vidros e cristais.|Estudo de estabilidade térmica de polímeros e filmes finos.|Investigação de nanopartículas e sistemas biológicos sensíveis.|Monitoramento de reações químicas em função da temperatura.
+Atividade Avaliativa
+Revisão do Conteúdo
+Conclusão</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Metodologia</legend>
+                    <div class="form-group">
+                        <label for="metodologia">Metodologia (uma linha por item, use "|" entre nome e descricao)</label>
+                        <textarea id="metodologia" name="metodologia" rows="6" required>Exposição dialogada com apoio visual|A apresentação será estruturada de forma a simular perguntas e respostas. Utilizando apresentação de slides e o quadro para demonstrar conceitos e princípios sobre o tema.
+Demonstração experimental|Imagens de propagação de laser em meio absorvedor para visualizar a lente térmica.
+Atividade avaliativa|Será utilizado uma situação-problema para averiguação do processo de ensino-aprendizado.</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Recursos Didáticos</legend>
+                    <div class="form-group">
+                        <label for="recursos_didaticos">Recursos (uma linha por item)</label>
+                        <textarea id="recursos_didaticos" name="recursos_didaticos" rows="4" required>Computador e projetor multimídia com apresentação em slides.
+Quadro branco, canetas coloridas para quadro branco e apagador.
+Modelo experimental de laser em meio absorvedor.</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Atividade Avaliativa</legend>
+                    <div class="form-group">
+                        <label for="enunciado">Enunciado</label>
+                        <textarea id="enunciado" name="enunciado" rows="3" required>Considere um líquido com coeficiente de absorção conhecido e iluminado por um laser de determinada potência. Descreva qualitativamente como a lente térmica formada afetará um feixe de prova e que parâmetros poderiam ser extraídos do experimento.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="forma_aplicacao">Forma de Aplicação</label>
+                        <input type="text" id="forma_aplicacao" name="forma_aplicacao" value="Escrita individual em sala (10 min)." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="criterios_correcao">Critérios de Correção (uma linha por criterio no formato criterio|peso)</label>
+                        <textarea id="criterios_correcao" name="criterios_correcao" rows="3" required>Clareza na explicação do mecanismo físico|40
+Identificação correta dos parâmetros experimentais relevantes|40
+Organização e linguagem científica|20</textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Bibliografia</legend>
+                    <div class="form-group">
+                        <label for="bibliografia">Bibliografia (uma linha por item, campos separados por "|"; use editora ou periodico como necessário)</label>
+                        <textarea id="bibliografia" name="bibliografia" rows="6" required>BIALKOWSKI, S. E.|Photothermal Spectroscopy Methods for Chemical Analysis|Wiley-Interscience|1996
+MANDELIS, A.|Principles and Perspectives of Photothermal and Photoacoustic Phenomena|Elsevier|2021
+SHEN, J.; SNOOK, R. D.|Thermal Lens Spectrometry: A Review|Applied Spectroscopy Reviews|30(4)|1995
+VARGAS, H.; MIRANDA, L. C. M.|Photothermal and Photoacoustic Phenomena: Theory and Applications|Springer|1983</textarea>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn btn-primary full-width">Gerar DOCX</button>
+            </form>
+
+            <a href="/dashboard.html" class="btn btn-secondary full-width" style="margin-top: 10px; display: block; text-align: center;">Voltar ao Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+            if (type !== 'error') {
+                setTimeout(() => messageDiv.style.display = 'none', 5000);
+            }
+        }
+
+        document.getElementById('compileForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const payload = buildPayload();
+
+            try {
+                const response = await fetch('/api/lesson-docs/compile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    let errorText = 'Erro ao gerar documento';
+                    if (response.status === 401 || response.status === 403) {
+                        errorText = 'Usuário não autenticado. Faça login novamente.';
+                    } else {
+                        const bodyText = await response.text();
+                        if (bodyText) {
+                            try {
+                                const errorBody = JSON.parse(bodyText);
+                                errorText = errorBody.error || errorBody.message || bodyText;
+                            } catch (_) {
+                                errorText = bodyText;
+                            }
+                        }
+                    }
+                    showMessage(errorText, 'error');
+                    return;
+                }
+
+                const blob = await response.blob();
+                const contentDisposition = response.headers.get('content-disposition');
+                let filename = 'plano-de-aula.docx';
+                if (contentDisposition) {
+                    const match = contentDisposition.match(/filename="?(.*?)"?$/);
+                    if (match && match[1]) {
+                        filename = match[1];
+                    }
+                }
+
+                const downloadUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                URL.revokeObjectURL(downloadUrl);
+
+                showMessage('Documento gerado com sucesso. O download deve começar em breve.', 'success');
+            } catch (error) {
+                showMessage('Erro de conexão: ' + error.message, 'error');
+            }
+        });
+
+        function buildPayload() {
+            const toList = (text) => text.split('\n').map(line => line.trim()).filter(Boolean);
+            const toContentItems = (text) => {
+                return toList(text).map(line => {
+                    const parts = line.split('|').map(part => part.trim());
+                    const item = { titulo: parts[0] };
+                    if (parts.length > 1) {
+                        item.subtopicos = parts.slice(1).filter(Boolean);
+                    }
+                    return item;
+                });
+            };
+
+            const toMethodologyItems = (text) => {
+                return toList(text).map(line => {
+                    const [nome, descricao] = line.split('|').map(part => part.trim());
+                    return { nome, descricao: descricao || '' };
+                });
+            };
+
+            const toBibliographyItems = (text) => {
+                return toList(text).map(line => {
+                    const parts = line.split('|').map(part => part.trim());
+                    return {
+                        autor: parts[0] || '',
+                        titulo: parts[1] || '',
+                        editora: parts[2] || '',
+                        periodico: parts.length === 5 ? parts[2] : undefined,
+                        volume: parts.length === 5 ? parts[3] : undefined,
+                        ano: parts.length === 5 ? parts[4] : parts[3] || ''
+                    };
+                });
+            };
+
+            return {
+                informacoes: {
+                    nome_candidato: document.getElementById('nome_candidato').value,
+                    numero_inscricao: document.getElementById('numero_inscricao').value,
+                    area_concurso: document.getElementById('area_concurso').value,
+                    publico_alvo: document.getElementById('publico_alvo').value,
+                    disciplina: document.getElementById('disciplina').value,
+                    tempo_aula: document.getElementById('tempo_aula').value,
+                    data_aula: document.getElementById('data_aula').value
+                },
+                titulo: document.getElementById('titulo').value,
+                objetivos: toList(document.getElementById('objetivos').value),
+                conteudo: toContentItems(document.getElementById('conteudo').value),
+                metodologia: toMethodologyItems(document.getElementById('metodologia').value),
+                recursos_didaticos: toList(document.getElementById('recursos_didaticos').value),
+                atividade_avaliativa: {
+                    enunciado: document.getElementById('enunciado').value,
+                    forma_aplicacao: document.getElementById('forma_aplicacao').value,
+                    criterios_correcao: toList(document.getElementById('criterios_correcao').value).map(line => {
+                        const [criterio, peso] = line.split('|').map(part => part.trim());
+                        return { criterio, peso: Number(peso || 0) };
+                    })
+                },
+                bibliografia: toBibliographyItems(document.getElementById('bibliografia').value)
+            };
+        }
+    </script>
+</body>
+</html>

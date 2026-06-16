@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Plano de Aula</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h1 class="navbar-brand">Plano de Aula</h1>
+            <button class="btn btn-danger" onclick="logout()">Sair</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Dashboard</h2>
+            <div id="message" class="message" style="display: none;"></div>
+            
+            <div class="user-info">
+                <p>Bem-vindo, <strong id="userName"></strong>!</p>
+            </div>
+
+            <div class="actions-section">
+                <h3>Ações</h3>
+                <button class="btn btn-primary" onclick="goToCompile()">Criar Novo Plano de Aula</button>
+                <button class="btn btn-secondary" onclick="listPlans()">Meus Planos</button>
+            </div>
+
+            <div id="plansContainer" style="display: none;" class="plans-section">
+                <h3>Seus Planos de Aula</h3>
+                <div id="plansList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        window.addEventListener('load', () => {
+            checkAuth();
+        });
+
+        async function checkAuth() {
+            try {
+                // Tenta acessar um endpoint protegido para verificar autenticação
+                const response = await fetch('/api/user', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const user = await response.json();
+                document.getElementById('userName').textContent = user.firstName || user.email;
+            } catch (error) {
+                console.error('Erro ao verificar autenticação:', error);
+                window.location.href = '/login.html';
+            }
+        }
+
+        function logout() {
+            fetch('/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            }).then(() => {
+                window.location.href = '/login.html';
+            }).catch(err => {
+                console.error('Erro ao fazer logout:', err);
+                window.location.href = '/login.html';
+            });
+        }
+
+        function goToCompile() {
+            showMessage('Função de compilação será implementada em breve!', 'info');
+        }
+
+        function listPlans() {
+            const container = document.getElementById('plansContainer');
+            const plansList = document.getElementById('plansList');
+
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                plansList.innerHTML = '<p>Carregando planos...</p>';
+
+                fetch('/lessonDocs', {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        plansList.innerHTML = '<p>Nenhum plano de aula criado ainda.</p>';
+                    } else {
+                        plansList.innerHTML = data.map(plan => `
+                            <div class="plan-item">
+                                <h4>${plan.titulo}</h4>
+                                <p>${plan.descricao || 'Sem descrição'}</p>
+                            </div>
+                        `).join('');
+                    }
+                })
+                .catch(err => {
+                    plansList.innerHTML = '<p>Erro ao carregar planos</p>';
+                    console.error(err);
+                });
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+            setTimeout(() => messageDiv.style.display = 'none', 4000);
+        }
+    </script>
+</body>
+</html>
